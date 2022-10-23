@@ -1,0 +1,25 @@
+{
+  "name": "rope",
+  "version": "1.0.0",
+  "description": "一个轻量级微前端响应式javascript引擎，在没有gzip的情况下，大小只有4kb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhuqingyv/rope.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhuqingyv/rope/issues"
+  },
+  "homepage": "https://github.com/zhuqingyv/rope#readme",
+  "dependencies": {
+    "webpack": "^5.74.0"
+  },
+  "devDependencies": {
+    "uglifyjs-webpack-plugin": "^2.2.0"
+  }
+}
