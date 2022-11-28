@@ -1,3 +1,6 @@
-# rope
-一个轻量级微前端响应式javascript引擎，在没有gzip的情况下，大小只有4kb
- [tested in CodePen.io.](https://codepen.io/zhuqingyv/pen/dyKyLRx)
+### 主要特性
+
+
+# Editor.md
+
+![](https://picasso-static.xiaohongshu.com/fe-platform/4e206d734613042f5cd8f8cd55be47ce747ba4e2.png)

@@ -1,25 +1,20 @@
 {
   "name": "rope",
   "version": "1.0.0",
-  "description": "一个轻量级微前端响应式javascript引擎，在没有gzip的情况下，大小只有4kb",
-  "main": "index.js",
+  "description": "test pointers by network tracker",
+  "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zhuqingyv/rope.git"
+    "demo": "cd ./example && http-server",
+    "benchmarkdemo": "cd ./benchmark && http-server"
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zhuqingyv/rope/issues"
-  },
-  "homepage": "https://github.com/zhuqingyv/rope#readme",
-  "dependencies": {
-    "webpack": "^5.74.0"
-  },
   "devDependencies": {
-    "uglifyjs-webpack-plugin": "^2.2.0"
+    "http-server": "^14.1.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "terser": "^5.15.1"
   }
 }

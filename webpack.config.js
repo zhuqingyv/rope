@@ -1,34 +1,23 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+// rope 主程序
+// module.exports = {
+//   mode: 'production',
+//   // mode: 'development',
+//   entry: './src/index.js',
+//   output: {
+//     path: path.resolve(__dirname, './benchmark/lib'),
+//     filename: 'rope.js'
+//   }
+// };
+
+// rope benchmark
 module.exports = {
-    mode: 'production',
-    entry: './index.js',
-    output: {
-        path: path.resolve(__dirname, './lib'),
-        filename: 'rope.js'
-    },
-    optimization: {
-        minimizer: [
-          new UglifyJsPlugin({
-            test: /\.js(\?.*)?$/i,
-            cache: true,
-            parallel: true,
-            extractComments: true
-          }),
-        ],
-      },
+  mode: 'production',
+  // mode: 'development',
+  entry: './benchmark/main.js',
+  output: {
+    path: path.resolve(__dirname, './benchmark/dist'),
+    filename: 'rope-bench-mark.js'
+  }
 };
-
-// minify,
-// uglifyOptions = {},
-// test = /\.js(\?.*)?$/i,
-// chunkFilter = () => true,
-// warningsFilter = () => true,
-// extractComments = false,
-// sourceMap = false,
-// cache = false,
-// cacheKeys = defaultCacheKeys => defaultCacheKeys,
-// parallel = false,
-// include,
-// exclude
