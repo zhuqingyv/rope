@@ -1,8 +1,9 @@
-// import './lib/rope.js'
-import '../src/index.js';
+import Rope from '../src/index.js';
 import { tr, td } from './Element/index.js';
 import { store, setStoreState } from './store.js';
 import './buttonList.js';
+
+// Rope.renderTask.setMaxRenderCount(15000);
 
 const { text:span, link:a, list } = Rope.Element;
 
@@ -28,11 +29,12 @@ const row = (item, index) => {
       td().class('col-md-6'),
     ).class(store.state, 'selected', (selected) => {
       const item = store.state.list[index];
-      if (item && item.id === selected) return 'danger';
-      return '';
+      return item && item.id === selected ? 'danger' : '';
     })
-  )
+  );
 };
 
-const { element } = list(row, store.state, 'list').setElement(document.createElement('tbody'));
-document.querySelector('#list-container').appendChild(element);
+// const List = list(row, store.state, 'list').setElement(document.createElement('tbody')).setRenderCount(100);
+const List = list(row, store.state, 'list').setElement(document.createElement('tbody'));
+List.update();
+document.querySelector('#list-container').appendChild(List.element);

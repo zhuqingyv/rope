@@ -1,8 +1,5 @@
 import { store, setStoreState } from './store.js';
 const { div, text:span } = Rope.Element;
-function random(max) {
-  return Math.round(Math.random() * 1000) % max;
-};
 
 const A = ["pretty", "large", "big", "small", "tall", "short", "long", "handsome", "plain", "quaint", "clean", "elegant", "easy", "angry", "crazy", "helpful", "mushy", "odd", "unsightly", "adorable", "important", "inexpensive", "cheap", "expensive", "fancy"];
 const C = ["red", "yellow", "blue", "green", "pink", "brown", "purple", "brown", "white", "black", "orange"];
@@ -19,6 +16,10 @@ function buildData(count) {
     }
   }
   return data;
+};
+
+function random(max) {
+  return Math.round(Math.random() * 1000) % max;
 };
 // 点击事件
 const onButtonAction = (type) => {
@@ -58,11 +59,11 @@ const onButtonAction = (type) => {
 
 const button = ({ id }) => {
   return div(
-    span(id).class('btn btn-primary btn-block').id(id).onClick(() => onButtonAction(id))
+    span(id).class('btn btn-primary btn-block').setElement(document.createElement('button')).id(id).onClick(() => onButtonAction(id))
   ).class('col-sm-6 smallpad')
 };
 
-const { element } = div(
+const buttomList = div(
   button({ id: 'run' }),
   button({ id: 'runlots' }),
   button({ id: 'add' }),
@@ -71,4 +72,6 @@ const { element } = div(
   button({ id: 'swaprows' }),
 ).class('row');
 
-document.querySelector('#button-container').appendChild(element);
+buttomList.update();
+
+document.querySelector('#button-container').appendChild(buttomList.element);

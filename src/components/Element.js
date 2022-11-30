@@ -1,3 +1,4 @@
+import Rope from '../index.js';
 import Render from './Render.js';
 
 class VElement {
@@ -24,41 +25,26 @@ class VElement {
     } catch {
       return defaultValue;
     }
-  }
+  };
 
   // original event
   static setAttribute = function (attributeName, ...arg) {
     const _arguments = [...arg];
     const argsLength = _arguments.length;
     if (argsLength === 1 && _arguments[0] !== undefined) {
-      const prop = _arguments[0];
-      this.props[attributeName] = _arguments[0]
+      this.props[attributeName] = _arguments[0];
     };
 
     if (argsLength >= 2) {
       this.bind(..._arguments, this.props, attributeName, _arguments[2]);
     };
+
+    if (!this.dynamicProps.includes(attributeName)) {
+      this.dynamicProps.push(attributeName);
+      this.render.initDynamicProps([attributeName]);
+      return;
+    };
   };
-
-  // memo HTMLElement
-  _el = null;
-  _templateElement = null;
-
-  _parent = null;
-
-  // 渲染器
-  _render = null;
-
-  // memo event
-  mountedCallback = null;
-  updatedCallback = null;
-
-  // <template>
-  tempElement = null;
-
-  updateTask = null;
-
-  type = null;
 
   props = {
     children: [],
@@ -67,18 +53,16 @@ class VElement {
 
   events = {};
 
-  // dynamicProps = ['dispose', 'show', 'className', 'id', 'style', 'key'];
   dynamicProps = [];
 
   children = (children) => {
     if (children?.length) {
-      children.forEach((child) => {
-        if (child && (child instanceof VElement || child.vm)) {
-          child.parent = this;
-          this.props.children.push(child);
-          child.update();
-        };
+      const _ = children.map((child) => {
+        child.parent = this;
+        this.props.children.push(child);
+        return child.element;
       });
+      this.element.append(..._);
     };
 
     return this;
@@ -195,16 +179,32 @@ class VElement {
    * @param { Function } callback 更新后回调
   */
   update = (updateObject, callback) => {
+    if (Rope.renderTask.renderMaxCount === Infinity) {
+      this.render.render(updateObject);
+      this.renderTask = null;
+      if (callback instanceof Function) callback();
+      if (this.updatedCallback instanceof Function) this.updatedCallback(this);
+      return;
+    };
+
     if (this.renderTask) return this.renderTask;
 
-    this.renderTask = new Promise((resolve) => {
-      Rope.renderTask.add(this.render.render, this, updateObject, () => {
+    this.renderTask = true;
+  
+    queueMicrotask(() => {
+      if (Rope.renderTask.renderMaxCount === Infinity) {
+        this.render.render(updateObject);
         this.renderTask = null;
         if (callback instanceof Function) callback();
         if (this.updatedCallback instanceof Function) this.updatedCallback(this);
-        resolve();
-      });
-    })
+      } else {
+        Rope.renderTask.add(this.render.render, this, updateObject, () => {
+          this.renderTask = null;
+          if (callback instanceof Function) callback();
+          if (this.updatedCallback instanceof Function) this.updatedCallback(this);
+        });
+      };
+    });
   };
 
   dom = (callback = () => null) => {
@@ -218,7 +218,6 @@ class VElement {
   };
 
   get templateElement() {
-    if (!this._templateElement) this._templateElement = document.createComment(this.type);
     return this._templateElement;
   };
 
@@ -236,12 +235,15 @@ class VElement {
   };
 
   get parent() {
-    return this._parent;
+    if (this._parent) return this._parent;
+    if (this.element.parentElement) return { element: this.element.parentElement };
+    if (this.templateElement?.parentElement) return { element: this.templateElement.parentElement };
+    return this._parent
   };
 
   set parent(value) {
     this._parent = value;
-
+    this.update();
   };
 
   get render() {

@@ -1,41 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rope Bench Mark!</title>
-</head>
-<style>
-  body {
-    padding: 10px 0 0 0;
-    margin: 0;
-    overflow-y: scroll;
-}
-#duration {
-    padding-top: 0px;
-}
-.jumbotron {
-    padding-top:10px;
-    padding-bottom:10px;
-}
-.test-data a {
-    display: block;
-}
-.preloadicon {
-    position: absolute;
-    top:-20px;
-    left:-20px;
-}
-.col-sm-6.smallpad {
-    padding: 5px;
-}
-.jumbotron .row h1 {
-    font-size: 40px;
-}
-</style>
-<style>
-  /*!
+/*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -7252,26 +7215,3 @@ button.close {
 }
 
 /*# sourceMappingURL=bootstrap.min.css.map */
-
-</style>
-<body>
-  <div class="container">
-    <div class="jumbotron">
-      <div class="row">
-        <div class="col-md-6">
-          <h1>Rope</h1>
-        </div>
-        <div class="col-md-6" id="button-container">
-          <!-- 按钮 -->
-        </div>
-      </div>
-    </div>
-    <table class="table table-hover table-striped test-data" id="list-container">
-      <!-- 列表 -->
-    </table>
-    <span class="preloadicon glyphicon glyphicon-remove" aria-hidden="true"></span>
-  </div>
-  <script type="module" src="./main.js"></script>
-  <!-- <script src="./dist/rope-bench-mark.js"></script> -->
-</body>
-</html>

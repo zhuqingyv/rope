@@ -1,22 +1,24 @@
 const elementStore = {};
-
 /**
  * 真正执行渲染的渲染器
 */
 class Render {
   target = null;
-  dynamicProps = ['dispose', 'show', 'key', 'className', 'id', 'style'];
+  dynamicProps = ['show'];
   renderedAttributes = [];
   sort = Object.create(null);
 
   constructor(target, dynamicProps = []) {
     this.target = target;
-    this.dynamicProps.push(...dynamicProps);
-    this.initRenderSort();
+    this.initDynamicProps(dynamicProps);
   };
 
-  initRenderSort = () => {
-    this.dynamicProps.forEach((key, i) => {
+  initDynamicProps = (dynamicProps) => {
+    dynamicProps.forEach((key, i) => {
+      if (!this.dynamicProps.includes(key)) {
+        this.dynamicProps.push(key);
+      };
+
       this.sort[key] = i;
     });
   };
@@ -68,14 +70,14 @@ class Render {
   */
   dispose = () => {
     const { dispose } = this.props;
-    const run = dispose || this.parent?.props.dispose;
-    if (run) {
+
+    if (dispose) {
       this.clearElement();
       this.clearState();
       return false;
     };
 
-    return this.buildElement();
+    return true;
   };
 
   /**
@@ -83,8 +85,8 @@ class Render {
   */
   show = () => {
     const { show } = this.props;
-    const run = show === false;
-    if (run) {
+
+    if (show === false) {
       this.resumeTemplate();
       return false;
     };
@@ -149,55 +151,47 @@ class Render {
     return true;
   };
 
-  buildElement = () => {
-    if (!this.element) this.element = document.createElement(this.type);
-    if (!this.tempElement) this.tempElement = document.createElement('template');
-    return true;
-  };
-
   // 恢复templateElement
   resumeTemplate = () => {
-    const { templateElement, element, parent } = this;
+    const { element, parent } = this;
     const parentElement = parent.element;
 
-    if (!parentElement) return;
+    const templateElement = this.templateElement || document.createComment('');
+
+    if (!parentElement) return true;
 
     // 初始化不展示
     if (!templateElement.parentElement && !element.parentElement && parentElement) {
-      parent.element.appendChild(templateElement);
+      parentElement.appendChild(templateElement);
+      if (!this.templateElement) this.templateElement = templateElement;
+      return true;
     };
 
     // Template 插入 Element 位置
     if (element.parentElement && !templateElement.parentElement) {
       element.parentElement.insertBefore(templateElement, element);
       element.remove();
+      return true;
     };
     return true;
   };
 
   // 恢复 element
   resumeElement = () => {
-    const { templateElement, element, parent } = this;
-    // 初始化不展示
-    if (parent && !templateElement.parentElement && !element.parentElement) {
-      parent.element.appendChild(element);
-      if (this.mountedCallback instanceof Function) this.mountedCallback(this.target);
-      return true;
+    const { parent } = this;
+
+    // 没有父元素直接return
+    if (!parent) return true;
+    if (this.element.parentElement) return true;
+
+    // 从注释位置插入
+    if (this.templateElement?.parentElement) {
+      this.templateElement.parentElement.insertBefore(this.element, this.templateElement);
+      this.templateElement.remove();
+      return true
     };
 
-    // Element 插入 Template 位置
-    if (templateElement.parentElement && !element.parentElement) {
-      templateElement.parentElement.insertBefore(element, templateElement);
-      templateElement.remove();
-      if (this.mountedCallback instanceof Function) this.mountedCallback(this.target);
-      return true;
-    };
-
-    if (!element.parentElement && parent?.element) {
-      parent.element.appendChild(element);
-      if (this.mountedCallback instanceof Function) this.mountedCallback(this.target);
-    };
-
+    parent.element.appendChild(this.element);
     return true;
   };
 
@@ -236,14 +230,13 @@ class Render {
     const { element } = this;
     if (!element || key == undefined || typeof key !== 'string') return;
 
-    const currentValue = element.getAttribute(key);
-
     if (_value !== undefined && _value !== null && _value !== '') {
+      const currentValue = element.getAttribute(key);
       const value = String(_value);
       if (currentValue !== value) {
         element.setAttribute(key, value);
       };
-    } else if (currentValue) {
+    } else {
       element.removeAttribute(key);
     };
   };
