@@ -54,18 +54,38 @@ export class List extends V {
 
   updateList = () => {
     const { children, list } = this.props;
-    // 触发更新
-    Rope.detective.dispatch(this, {
-      props: {
-        list: true
-      }
-    });
+    // 正常更新
+    if (list.length) {
+      // list没有在视觉中
+      if (!this.element.parentNode) return;
+      // 触发更新
+      Rope.detective.dispatch(this, {
+        props: {
+          list: true
+        }
+      });
 
-    // 需要新增children
-    if (list.length > children.length) {
-      const startIndex = children.length;
-      const _list = list.slice(startIndex);
-      this.addListChildren(_list, startIndex);
+      if (this.templateElement?.parentNode) {
+        this.templateElement.parentNode.insertBefore(this.element, this.templateElement);
+        this.templateElement.remove();
+      };
+
+      // 需要新增children
+      if (list.length > children.length) {
+        const startIndex = children.length;
+        const _list = list.slice(startIndex);
+        this.addListChildren(_list, startIndex);
+      };
+      return;
+    };
+
+    // 快速清空列表
+    if (this.parent) {
+      const templateElement = this.templateElement || document.createComment('');
+      this.templateElement = templateElement;
+
+      this.parent.element.insertBefore(templateElement, this.element);
+      this.element.remove();
     };
   };
 
@@ -82,7 +102,13 @@ export class List extends V {
         return child.element;
       });
 
-      this.element.append(...children);
+      const parentNode = this.element.parentNode || this.templateElement.parentNode;
+      const targetEl = this.element.parentNode ? this.element : this.templateElement;
+      const cloneElement = this.element.cloneNode();
+      cloneElement.append(...children);
+      parentNode.insertBefore(cloneElement, targetEl);
+      this.element.remove();
+      this.element = cloneElement;
       return;
     };
 

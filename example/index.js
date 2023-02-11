@@ -2,7 +2,7 @@ const { Rope } = window
 const { text, div, hooks, input, list } = Rope;
 
 const length = 100;
-const taskStep = 1;
+const taskStep = Infinity;
 
 const app = (hooks((props, state, setState) => {
   const doSomething = (event) => {

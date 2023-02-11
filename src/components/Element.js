@@ -42,8 +42,9 @@ class VElement {
     if (!this.dynamicProps.includes(attributeName)) {
       this.dynamicProps.push(attributeName);
       this.render.initDynamicProps([attributeName]);
-      return;
     };
+
+    this.update();
   };
 
   props = {
