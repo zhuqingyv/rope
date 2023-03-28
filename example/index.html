@@ -1,16 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+  <body>
+    <style>
+      span {
+        display: block;
+      }
+    </style>
+    <script src="./lib/rope.js"></script>
+    <script type="text/javascript">
+      const { Rope } = window
+      const { text, div, hooks, input, list } = Rope;
+      
+      const rope = new Rope(1);
+      const app = hooks((props, state, setState) => {
+        return div(
+          text(props, 'text'),
+          text(state, 'text')
+        );
+      }, { text: 'Hello world!From state!' });
 
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Rope</title>
-</head>
+      document.body.appendChild(app({
+        text: 'Hello world!From props!'
+      }).element);
 
-<body>
-	<script src="./lib/rope.js"></script>
-	<script type="module" src="./index.js"></script>
-</body>
-
+    </script>
+  </body>
 </html>

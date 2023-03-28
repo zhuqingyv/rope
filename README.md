@@ -21,7 +21,12 @@ Rope was born to perform simple page building without any web clis( _npm vue-cli
 ``` html
 <html>
   <body>
-    <script src="./rope.min.js"></script>
+    <style>
+      span {
+        display: block;
+      }
+    </style>
+    <script src="./lib/rope.js"></script>
     <script type="text/javascript">
       const { Rope } = window
       const { text, div, hooks, input, list } = Rope;
@@ -30,15 +35,19 @@ Rope was born to perform simple page building without any web clis( _npm vue-cli
       const app = hooks((props, state, setState) => {
         return div(
           text(props, 'text'),
-          text(state, 'test')
+          text(state, 'text')
         );
-      }, { test: 'Hello world!From state!' });
+      }, { text: 'Hello world!From state!' });
 
       document.body.appendChild(app({
-        test: 'Hello world!From props!'
+        text: 'Hello world!From props!'
       }).element);
 
     </script>
   </body>
 </html>
 ```
+
+运行结果如图!
+
+![](https://github.com/zhuqingyv/rope/blob/main/assets/base_demo.png)
