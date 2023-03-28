@@ -24,8 +24,9 @@ const app = hooks((props, state, setState) => {
 });
 
 // TODO: 这里修改渲染速度
-const rope = new Rope(1).init({
-  root: document.body,
-  app
-});
-rope.root.appendChild(app().element);
+// const rope = new Rope(1).init({
+//   root: document.body,
+//   app
+// });
+new Rope(1)
+document.body.appendChild(app().element);
