@@ -1,6 +1,6 @@
 # Editor.md
 
-![](https://picasso-static.xiaohongshu.com/fe-platform/4e206d734613042f5cd8f8cd55be47ce747ba4e2.png)
+![icon](https://picasso-static.xiaohongshu.com/fe-platform/4e206d734613042f5cd8f8cd55be47ce747ba4e2.png)
 
 RopeJS is a purely functional programming web framework that abstracts all elements into a single function, and all data binding is also implemented through passing parameters. So even if you don't use JSX like syntax, you can write a semantical DOM structure using javascript!
 
@@ -10,7 +10,7 @@ RopeJS is a purely functional programming web framework that abstracts all eleme
 npm i jsrope
 ```
 
-_or_
+OR
 
 ``` html
 <script src="https://xxxxxx.ropejs.js"></script>
@@ -52,7 +52,7 @@ Rope was born to perform simple page building without any web clis( _npm vue-cli
 
 The operation result is shown in the figure!
 
-![](https://github.com/zhuqingyv/rope/blob/main/assets/base_demo.png)
+![result](https://github.com/zhuqingyv/rope/blob/main/assets/base_demo.png)
 
 ### Element
 
@@ -97,7 +97,7 @@ test('I'm a span as text!)
 
 ### Hook Component
 
-_Usually, we need to reuse a set of elements, that is, the concept of components. At this point, we need to use hooks_
+Usually, we need to reuse a set of elements, that is, the concept of components. At this point, we need to use hooks
 
 #### Use
 

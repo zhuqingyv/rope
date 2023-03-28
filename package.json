@@ -1,7 +1,7 @@
 {
   "name": "roper",
   "version": "1.0.4",
-  "description": "test pointers by network tracker",
+  "description": "Easily develop a web application without any cli",
   "main": "./src/index.js",
   "files": [
     "src/*",
