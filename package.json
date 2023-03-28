@@ -1,6 +1,6 @@
 {
   "name": "roper",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Easily develop a web application without any cli",
   "main": "./src/index.js",
   "files": [
