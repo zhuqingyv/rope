@@ -1,6 +1,6 @@
 # Editor.md
 
-![icon](https://picasso-static.xiaohongshu.com/fe-platform/4e206d734613042f5cd8f8cd55be47ce747ba4e2.png)
+![icon](https://github.com/zhuqingyv/rope/blob/main/assets/icon.png)
 
 RopeJS is a purely functional programming web framework that abstracts all elements into a single function, and all data binding is also implemented through passing parameters. So even if you don't use JSX like syntax, you can write a semantical DOM structure using javascript!
 
