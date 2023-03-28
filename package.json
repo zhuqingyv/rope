@@ -1,6 +1,6 @@
 {
-  "name": "jsrope",
-  "version": "1.0.0-alpha",
+  "name": "rope-js",
+  "version": "1.0.1",
   "description": "test pointers by network tracker",
   "main": "./src/index.js",
   "scripts": {
