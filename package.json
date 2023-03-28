@@ -1,9 +1,13 @@
 {
   "name": "roper",
-  "version": "1.0.2-2",
+  "version": "1.0.2",
   "description": "test pointers by network tracker",
   "main": "./src/index.js",
-  "files": ["src/*", "package.json", "README.md"],
+  "files": [
+    "src/*",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
     "demo": "cd ./example && http-server",
     "benchmarkdemo": "cd ./benchmark && http-server"
