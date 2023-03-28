@@ -7,7 +7,7 @@ RopeJS is a purely functional programming web framework that abstracts all eleme
 ## install or inject
 
 ``` shell
-npm i jsrope
+npm i roper
 ```
 
 OR
