@@ -5,23 +5,7 @@
         display: block;
       }
     </style>
-    <script src="./lib/rope.js"></script>
-    <script type="text/javascript">
-      const { Rope } = window
-      const { text, div, hooks, input, list } = Rope;
-      
-      const rope = new Rope(1);
-      const app = hooks((props, state, setState) => {
-        return div(
-          text(props, 'text'),
-          text(state, 'text')
-        );
-      }, { text: 'Hello world!From state!' });
-
-      document.body.appendChild(app({
-        text: 'Hello world!From props!'
-      }).element);
-
-    </script>
+    <script src="./lib/rope.js" type="module"></script>
+    <script src="./index.js" type="module"></script>
   </body>
 </html>

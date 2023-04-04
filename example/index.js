@@ -1,32 +1,22 @@
 const { Rope } = window
-const { text, div, hooks, input, list } = Rope;
+const { text, div, hooks, input, list, element:$ } = Rope.Element;
+const rope = new Rope(1);
 
 const app = hooks((props, state, setState) => {
-  return (
-    div(
-      list((number) => {
-        return text(number)
-      }, state, 'list'),
-      div(
-        text('点我')
-      )
-        .className('button')
-        .onClick(() => {
-          setState({
-            list: [1,2,3,4,5]
-          })
-        })
-    )
-      .className('container')
-  );
-}, {
-  list: [1,2,3]
-});
 
-// TODO: 这里修改渲染速度
-// const rope = new Rope(1).init({
-//   root: document.body,
-//   app
-// });
-new Rope(1)
-document.body.appendChild(app().element);
+  const Item = (number) => {
+    return $('pre').children([
+      $('code', `var a${number} = ${number};`)
+    ])
+  };
+
+  return div(
+    text(props, 'text'),
+    text(state, 'text'),
+    list((number) => Item(number), [1,2,3,4,5])
+  );
+}, { text: 'Hello world!From state!' });
+
+document.body.appendChild(app({
+  text: 'Hello world!From props!'
+}).element);

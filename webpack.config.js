@@ -6,8 +6,8 @@ module.exports = {
   // mode: 'development',
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, './lib'),
-    filename: 'rope.min.js'
+    path: path.resolve(__dirname, './example/lib'),
+    filename: 'rope.js'
   }
 };
 

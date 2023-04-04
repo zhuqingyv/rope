@@ -24,6 +24,8 @@ export const setProps = ({ args, Type }) => {
     const [src] = _arguments;
     return new Type(src);
   };
+
+  return new Type();
 };
 
 export class Div extends V {
@@ -206,6 +208,21 @@ export const list = (...arg) => {
     args: [...arg],
     Type: List
   });
+};
+
+export const element = (type, ...arg) => {
+  class AutoElement extends V {
+    type = type;
+    constructor(...value) {
+      super();
+      this.value(...value);
+    };
+    value = special.bind(this, 'value');
+  };
+  return setProps({
+    args: [ ...arg ],
+    Type: AutoElement
+  })
 };
 
 export const VElement = V;
