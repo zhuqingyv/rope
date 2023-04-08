@@ -7,7 +7,7 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, './example/lib'),
-    filename: 'rope.js'
+    filename: 'rope.min.js'
   }
 };
 

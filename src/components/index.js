@@ -1,5 +1,4 @@
 import V from "./Element.js";
-import { asyncForEach } from './RenderTask.js';
 
 export const special = function(key, ...arg) {
   this.setAttribute(key, ...arg);
