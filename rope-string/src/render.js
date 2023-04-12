@@ -1,22 +1,39 @@
 import { isEmpty } from "../utils/index.js";
+import { workFlow } from './workflow/index.js';
+import { DynamicsData } from "./signal.js";
 
-export const getAttributesString = (attributes = {}, index) => {
+export const getEventsString = ({ events, index }) => {
+  const eventsList = Object.keys(events);
+
+  if (!eventsList?.length) return '';
+
+  const allEvents = eventsList.map((name) => {
+    const eventName = name.slice(2);
+    return eventName
+  }, '').join(' ')
+
+  return `rope-events='${allEvents}'`;
+};
+
+export const getAttributesString = ({ eventsString, attributes = {}, index }) => {
+  const idString = isEmpty(index) ? '' : `tree-id='${index}'`;
   return Object.keys(attributes).reduce((pre, key) => {
     pre += (' ' + attributes[key]());
     return pre;
-  }, isEmpty(index) ? '' : `tree-id='${index}'`);
+  }, `${idString}${eventsString}`);
 };
 
-export const getTagString = (tag, allAttributesValue) => {
+export const getTagString = ({ tag, attributeValue, events }) => {
   const { start, end } = tag;
-  return `${start}${isEmpty(allAttributesValue) ? '' : ` ${allAttributesValue}`}${end}`;
+  return `${start}${isEmpty(attributeValue) ? '' : ` ${attributeValue}`}${end}`;
 };
 
 export const getValue = (target, index) => {
-  const { attributes, children } = target;
-  const attributesValue = getAttributesString(attributes, index);
-  const startTagString = getTagString(target.startTag, `${attributesValue}`);
-  const endTagString = getTagString(target.endTag);
+  const { attributes, children, events } = target;
+  const eventsString = getEventsString({ events, id: index });
+  const attributesValue = getAttributesString({ eventsString, attributes, index });
+  const startTagString = getTagString({ tag: target.startTag, attributeValue: `${attributesValue}` });
+  const endTagString = getTagString({ tag: target.endTag });
 
   return `${startTagString}${children(index, target)}${endTagString}`;
 };
@@ -27,6 +44,9 @@ export const _value = (children, parentIndex, parent = null) => {
 
   const getNodeValue = (_childrenOrValue, index) => {
     if (isEmpty(_childrenOrValue)) return undefined;
+    if (DynamicsData.isDynamics(_childrenOrValue)) {
+      // TODO: 处理动态数据
+    }
     // return TextNode
     if (typeof _childrenOrValue === 'string') return _childrenOrValue;
     // return closeTagNode
@@ -50,6 +70,9 @@ export const _value = (children, parentIndex, parent = null) => {
 };
 
 export const render = (root, element) => {
+  const hook = workFlow('render');
+
+  hook.next('init', () => {})
   // const hook = tap('render')
   //   .next('init', ({ data, next }) => {
   //     next(data);

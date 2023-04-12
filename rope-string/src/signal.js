@@ -1,6 +1,16 @@
+export class DynamicsData {
+  static isDynamics = (target) => {
+    return target instanceof DynamicsData;
+  }
+  constructor(data, callback) {
+    this.data = data;
+    this.callback = callback;
+  }
+}
+
 const setValue = (data, value) => {
   if (value instanceof Function) {
-    data.value = value();
+    data.value = value(data.value);
     return;
   };
 
@@ -8,14 +18,20 @@ const setValue = (data, value) => {
 };
 
 const createGetter = (data) => {
-  return () => data.value;
+  const handle = function() {
+    return data.value
+  };
+  handle.__proto__ = new DynamicsData(data);
+  return handle;
 };
 
 const createSetter = (data) => {
-  return (value, callback) => {
+  const handle = function(value, callback) {
     setValue(data, value);
     callback(value);
-  };
+  }
+  handle.__proto__ = new DynamicsData(data);
+  return handle;
 };
 
 export const signal = (initValue) => {

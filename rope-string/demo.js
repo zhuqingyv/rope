@@ -8,8 +8,10 @@ const { div, span, code, canvas, block, script, style } = ElementS;
 
 const app = () => {
   const [ count, setCount ] = signal('沙雕');
-
-  return span(count);
+  debugger;
+  // children
+  // attribute
+  return span(count).onclick(() => {alert(666)});
 };
 
 window.app = app();
@@ -17,4 +19,12 @@ window.app = app();
 render(document.querySelector('#root'), window.app);
 
 
+const rope = {};
 
+
+const app1 = hooks({
+  computed(props, state) {},
+  render({ title }) {
+    return div(title)
+  }
+});

@@ -1,5 +1,6 @@
 import { _null, isEmpty } from '../utils/index.js';
 import { SPECIAL_ATTRIBUTE } from '../static.js';
+import { workFlow } from './workflow/index.js';
 import bindEvent from './bindEvent.js';
 import { _value } from './render.js';
 
@@ -78,7 +79,6 @@ export const buildBaseElement = (elementType) => {
 
       // 获取子元素结果
       children: (index, parent) => {
-        debugger;
         return _value(childrenOrValue, index, parent)
       },
 
@@ -98,7 +98,7 @@ export const buildBaseElement = (elementType) => {
         if (attribute === 'target') return target;
 
         // 事件绑定
-        if (attribute.startsWith('on')) {
+        if (attribute.startsWith('on') && attribute?.length > 2) {
           if (isEmpty(target.events)) target.events = _null();
           return bindEvent({ target, proxy, eventName: attribute });
         };
