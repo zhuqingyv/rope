@@ -7,11 +7,14 @@ const { div, span, code, canvas, block, script, style } = ElementS;
 // 2.列表更新
 
 const app = () => {
-  const [ count, setCount ] = signal('沙雕');
-  debugger;
+  const [ children, setChildren ] = signal('one');
+  setTimeout(() => {
+    setChildren(span('666'))
+  }, 2000);
+  // debugger;
   // children
   // attribute
-  return span(count).onclick(() => {alert(666)});
+  return div(children).onclick(() => {alert(666)});
 };
 
 window.app = app();
@@ -19,12 +22,12 @@ window.app = app();
 render(document.querySelector('#root'), window.app);
 
 
-const rope = {};
+// const rope = {};
 
 
-const app1 = hooks({
-  computed(props, state) {},
-  render({ title }) {
-    return div(title)
-  }
-});
+// const app1 = hooks({
+//   computed(props, state) {},
+//   render({ title }) {
+//     return div(title)
+//   }
+// });

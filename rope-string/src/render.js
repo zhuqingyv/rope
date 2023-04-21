@@ -1,8 +1,8 @@
-import { isEmpty } from "../utils/index.js";
+import { isEmpty, _null } from "../utils/index.js";
 import { workFlow } from './workflow/index.js';
-import { DynamicsData } from "./signal.js";
+import { DynamicsData } from "./signal/index.js";
 
-export const getEventsString = ({ events, index }) => {
+export const getEventsString = ({ events = _null(), index }) => {
   const eventsList = Object.keys(events);
 
   if (!eventsList?.length) return '';
@@ -46,7 +46,18 @@ export const _value = (children, parentIndex, parent = null) => {
     if (isEmpty(_childrenOrValue)) return undefined;
     if (DynamicsData.isDynamics(_childrenOrValue)) {
       // TODO: 处理动态数据
-    }
+      const setChildren = (value) => {
+        const childNode = parent.element().childNodes[index];
+        // 文字类型直接修改
+        if (childNode instanceof Text && typeof value === 'string') {
+          childNode.nodeValue = value;
+        }
+
+        debugger;
+      };
+      const __value = _childrenOrValue({ target: parent, computedHandle: setChildren });
+      return getNodeValue(__value);
+    };
     // return TextNode
     if (typeof _childrenOrValue === 'string') return _childrenOrValue;
     // return closeTagNode
@@ -70,9 +81,16 @@ export const _value = (children, parentIndex, parent = null) => {
 };
 
 export const render = (root, element) => {
-  const hook = workFlow('render');
+  root.innerHTML = _value(element);
+  // const renderHook = workFlow('render');
 
-  hook.next('init', () => {})
+  // renderHook.tap('init', () => {
+
+  // });
+
+  // hook.run('init', () => {
+
+  // });
   // const hook = tap('render')
   //   .next('init', ({ data, next }) => {
   //     next(data);
@@ -90,5 +108,4 @@ export const render = (root, element) => {
   // hook.start(element);
   // if (intercept) hook.intercept(intercept);
   // return hook;
-  root.innerHTML = _value(element)
 };

@@ -85,7 +85,9 @@ export const buildBaseElement = (elementType) => {
       // 获取子节点实例
       nodeList: () => childrenOrValue.map((child) => {
         return child?.target || child;
-      })
+      }),
+
+      element: () => document.querySelector(`[tree-id='${target.treeId}']`)
     };
 
     const isClose = isEmpty(target.value);
